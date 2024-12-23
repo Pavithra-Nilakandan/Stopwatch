@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class Stopwatch {
+
+    private long startTime;
+    private long elapsedTime;
+    private boolean isRunning;
+
+    // Constructor initializes the stopwatch
+    public Stopwatch() {
+        elapsedTime = 0;
+        isRunning = false;
+    }
+
+    // Start the stopwatch if it's not already running
+    public void start() {
+        if (!isRunning) {
+            startTime = System.currentTimeMillis() - elapsedTime;
+            isRunning = true;
+            System.out.println("Stopwatch has started.");
+        }
+    }
+
+    // Stop the stopwatch and display the elapsed time
+    public void stop() {
+        if (isRunning) {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            isRunning = false;
+            System.out.println("Stopwatch stopped.");
+            System.out.println("Elapsed time: " + elapsedTime / 1000 + " seconds.");
+        }
+    }
+
+    // Reset the stopwatch to zero
+    public void reset() {
+        elapsedTime = 0;
+        System.out.println("Stopwatch reset.");
+    }
+
+    // Display the current elapsed time if the stopwatch is running
+    public void display() {
+        if (isRunning) {
+            long currentTime = System.currentTimeMillis();
+            long totalTime = currentTime - startTime + elapsedTime;
+            System.out.println("Current time: " + totalTime / 1000 + " seconds.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Stopwatch stopwatch = new Stopwatch();
+        Scanner scanner = new Scanner(System.in);
+        String command;
+
+        // Infinite loop to handle user commands
+        while (true) {
+            System.out.println("\nEnter a command (start, stop, reset, exit):");
+            command = scanner.nextLine().toLowerCase();
+
+            switch (command) {
+                case "start":
+                    stopwatch.start();
+                    break;
+                case "stop":
+                    stopwatch.stop();
+                    break;
+                case "reset":
+                    stopwatch.reset();
+                    break;
+                case "exit":
+                    System.out.println("Exiting the program.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid command! Please try again.");
+            }
+
+            // Display the elapsed time if the stopwatch is running
+            if (stopwatch.isRunning) {
+                stopwatch.display();
+            }
+        }
+    }
+}
